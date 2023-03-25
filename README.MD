@@ -52,4 +52,4 @@ We use polling as of now and attempts to make it based on webhooks are in progre
 
 ## Contributing
 
-Feel free to contribute to the project fork the project and make it better. If you have any questions feel free to contact me on telegram or twitter @fauzaanu
+Feel free to contribute to the project / fork the project and make it better. If you have any questions feel free to contact me on telegram or twitter @fauzaanu
