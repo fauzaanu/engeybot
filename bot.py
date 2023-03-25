@@ -1,0 +1,125 @@
+import time
+import openai
+import logging
+import telegram
+from telegram import Update
+from telegram.ext import ContextTypes
+from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler
+from cred import *
+from tts import _main
+import os
+
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG
+)
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    bot_qry = update.message.text
+    await context.bot.send_message(chat_id=ADMIN_ID, text=update)
+    
+    
+    with open("usersdb.txt", "r") as f:
+        status = False
+        for line in f:
+            if str(update.effective_chat.id) in line:
+                status = True
+                break
+        
+        if status == False:
+            with open("usersdb.txt", "a") as f:
+                f.write(str(update.effective_chat.id)+"\n")
+
+    if "#idk" in bot_qry:
+        # Load your API key from an environment variable or secret management service
+        openai.api_key = OPEN_AI_KEY
+        promt = bot_qry.replace('#idk', '')
+
+        if len(promt) < 4000:
+            # use moderation api and check all values and send the user some feedback as well
+            response = openai.Moderation.create(
+                input=f"{promt}"
+            )
+            print(response)
+            flagged = response["results"][0]["flagged"]
+
+            if flagged:
+                await context.bot.send_message(chat_id=update.effective_chat.id,
+                                               text=str(f"Your Request was flagged!"), reply_to_message_id=update.message.id)
+            else:
+                processing = await context.bot.send_message(chat_id=update.effective_chat.id,
+                                                            text=str(f"Processing Request!"), reply_to_message_id=update.message.id)
+
+                await context.bot.sendChatAction(chat_id=update.effective_chat.id,
+                                                 action=telegram.constants.ChatAction.TYPING)
+
+                response = openai.Completion.create(model="text-davinci-003", prompt=promt, temperature=0,
+                                                    max_tokens=4000)
+                print(response.to_dict_recursive())
+                x = str(response.to_dict_recursive()["choices"][0]["text"])
+                print(x)
+                print(response)
+                promt = promt.strip()
+                await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=processing.message_id)
+                await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
+                
+                tts_string = str(f"{x}")
+                
+                await _main(str(tts_string))
+                # check if the file exists
+
+                if os.path.exists("voice.mp3"):
+                    await context.bot.send_audio(chat_id=update.effective_chat.id, audio=open('voice.mp3', 'rb'), title=f"{promt}", performer=f"@EngeyBot", caption=f"{promt}", thumb="main.jpg", reply_to_message_id=update.message.id)
+                    
+                    os.remove("voice.mp3")
+                    
+
+                processing = await context.bot.send_message(chat_id=update.effective_chat.id,
+                                                            text=str(f"Processing Complete! If you didnt recieve an answer please try again"), )
+                
+        else:
+            await context.bot.send_message(chat_id=update.effective_chat.id,
+                                           text="1000 characters allowed")
+
+
+
+# working part
+async def commd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(chat_id=ADMIN_ID, text="#newuser: "+str(update))
+    await context.bot.send_message(chat_id=update.effective_chat.id,
+                                   text="Please send your questions in the following format: <your question> #idk")
+    
+    with open("usersdb.txt", "r") as f:
+        status = False
+        for line in f:
+            if str(update.effective_chat.id) in line:
+                status = True
+                break
+        
+        if status == False:
+            with open("usersdb.txt", "a") as f:
+                f.write(str(update.effective_chat.id)+"\n")
+
+
+if __name__ == '__main__':
+    token = TELEGRAM_API_KEY
+    
+    
+    # # webhook transition  -- failing for some reason
+    # url = "https://engeybot.fauzaanu.com"
+    # port = 8000
+    
+    # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Webhooks
+    # openssl req -newkey rsa:2048 -sha256 -noenc -keyout private.key -x509 -days 3650 -out cert.pem
+    
+    
+    application = ApplicationBuilder().token(token).build()
+
+    commands = CommandHandler('start', commd)
+    links = MessageHandler(filters.TEXT, start)
+    # on different commands - answer in Telegram
+    application.add_handler(commands)
+    application.add_handler(links)
+
+    application.run_polling()
