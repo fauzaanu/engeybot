@@ -12,7 +12,7 @@ Why? Because we can then use it in group chats without the bot distrupting the c
 
 ## ADDITIONAL LIBRARIES
 
-we are using edge-tts by rany2 for text to speech. It provides the natural sounding voices and is open source. You can find it from https://github.com/rany2/edge-tts
+we are using edge-tts by rany2 for text to speech. It provides the natural sounding voices on Microsoft Edge and is open source. You can find it from https://github.com/rany2/edge-tts
 
 ## Credentials and UsersDB
 
