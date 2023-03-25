@@ -1,6 +1,6 @@
 # ENGEYBOT
 
-Engey (އެނގޭ) means knowing in Dhivehi
+Engey (އެނގޭ) means knowing in Dhivehi. Bot is live on telegram under the handle of @engeybot
 
 The bot uses openAI completion API to generate responses to user input.
 
@@ -36,6 +36,7 @@ The bot also needs a usersdb.txt file to store all the chat ids of the users it 
 ## INSTALLATION
 
 As it is always recommended to make a virtual environment for python projects, we will be using virtualenv for this project. You can install it using pip3 install virtualenv
+python3 -m virtualenv venv
 
 Next using virtualenv we can create an environment. For example we will be creating an environment called venv
 
