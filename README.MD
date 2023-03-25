@@ -4,7 +4,7 @@ Engey (އެނގޭ) means knowing in Dhivehi. Bot is live on telegram under the h
 
 The bot uses openAI completion API to generate responses to user input.
 
-The users are expected to send their queries in the syntax question #idk
+The users are expected to send their queries in the syntax: `why is the sky blue #idk`
 
 As long as #idk is present in the message the bot will try to generate a response.
 
