@@ -54,10 +54,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await context.bot.sendChatAction(chat_id=update.effective_chat.id,
                                                  action=telegram.constants.ChatAction.TYPING)
 
-                response = openai.Completion.create(model="text-davinci-003", prompt=promt, temperature=0,
-                                                    max_tokens=4000)
+                response = await openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": f"{promt}", }])
+                
                 print(response.to_dict_recursive())
-                x = str(response.to_dict_recursive()["choices"][0]["text"])
+                x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
                 print(x)
                 print(response)
                 promt = promt.strip()
