@@ -4,7 +4,7 @@ Engey (އެނގޭ) means knowing in Dhivehi. Bot is live on telegram under the h
 
 The bot uses openAI completion API to generate responses to user input.
 
-The users are expected to send their queries in the syntax question #idk
+The users are expected to send their queries in the syntax: `why is the sky blue #idk`
 
 As long as #idk is present in the message the bot will try to generate a response.
 
@@ -12,7 +12,7 @@ Why? Because we can then use it in group chats without the bot distrupting the c
 
 ## ADDITIONAL LIBRARIES
 
-we are using edge-tts by rany2 for text to speech. It provides the natural sounding voices and is open source. You can find it from https://github.com/rany2/edge-tts
+we are using edge-tts by rany2 for text to speech. It provides the natural sounding voices on Microsoft Edge and is open source. You can find it from https://github.com/rany2/edge-tts
 
 ## Credentials and UsersDB
 
@@ -52,4 +52,4 @@ We use polling as of now and attempts to make it based on webhooks are in progre
 
 ## Contributing
 
-Feel free to contribute to the project fork the project and make it better. If you have any questions feel free to contact me on telegram or twitter @fauzaanu
+Feel free to contribute to the project / fork the project and make it better. If you have any questions feel free to contact me on telegram or twitter @fauzaanu
