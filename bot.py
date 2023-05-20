@@ -36,7 +36,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Load your API key from an environment variable or secret management service
         openai.api_key = OPEN_AI_KEY
         promt = bot_qry.replace('#idk', '')
-        firstname = update.effective_chat.first_name
+        firstname = update.effective_user.first_name
         
         
         await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type}: "+str(update))
