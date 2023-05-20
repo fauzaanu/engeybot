@@ -32,7 +32,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f.write(str(update.effective_chat.id)+"\n")
     
     # check if it is a group or a private chat
-    if update.effective_chat.type == "private" or (update.effective_chat.type == "group" and "#idk" in bot_qry.lower()):
+    if update.effective_chat.type == "private" or (update.effective_chat.type == "group" and "#idk" in bot_qry.lower()) or (update.effective_chat.type == "supergroup" and "#idk" in bot_qry.lower()):
         # Load your API key from an environment variable or secret management service
         openai.api_key = OPEN_AI_KEY
         promt = bot_qry.replace('#idk', '')
