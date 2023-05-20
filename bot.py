@@ -37,6 +37,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         openai.api_key = OPEN_AI_KEY
         promt = bot_qry.replace('#idk', '')
         firstname = update.effective_user.first_name
+        
+        # in supergroups and groups, the first name is not available
+        if update.effective_chat.type == "supergroup" or update.effective_chat.type == "group":
+            firstname = update.effective_message.from_user.first_name
         print(firstname)
         
         
