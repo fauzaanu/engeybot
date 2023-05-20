@@ -52,8 +52,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await context.bot.send_message(chat_id=update.effective_chat.id,
                                                text=str(f"Your Request was flagged!"), reply_to_message_id=update.message.id)
             else:
-                processing = await context.bot.send_message(chat_id=update.effective_chat.id,
-                                                            text=str(f"Processing Request!"), reply_to_message_id=update.message.id)
+                #processing = await context.bot.send_message(chat_id=update.effective_chat.id,
+                #                                            text=str(f"Processing Request!"), reply_to_message_id=update.message.id)
 
                 await context.bot.sendChatAction(chat_id=update.effective_chat.id,
                                                  action=telegram.constants.ChatAction.TYPING)
@@ -80,7 +80,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     await context.bot.send_audio(chat_id=update.effective_chat.id, audio=open('voice.mp3', 'rb'), title=f"{promt}", performer=f"@EngeyBot", caption=f"{promt}", thumb="main.jpg", reply_to_message_id=update.message.id)
                     
                     os.remove("voice.mp3")
-                processing = await context.bot.send_message(chat_id=update.effective_chat.id,
+                #processing = await context.bot.send_message(chat_id=update.effective_chat.id,
                                                             text=str(f"Processing Complete! If you didnt recieve an answer please try again"), )
                 
                 await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
