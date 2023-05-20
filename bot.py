@@ -65,7 +65,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
 
                 promt = promt.strip()
-                await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=processing.message_id)
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
                 
                 tts_string = str(f"{x}")
