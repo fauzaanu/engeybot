@@ -30,20 +30,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if status == False:
             with open("usersdb.txt", "a") as f:
                 f.write(str(update.effective_chat.id)+"\n")
-
-    if "#idk" in bot_qry:
+    
+    # check if it is a group or a private chat
+    if update.effective_chat.type == "private" or (update.effective_chat.type == "group" and "#idk" in bot_qry.lower()):
         # Load your API key from an environment variable or secret management service
         openai.api_key = OPEN_AI_KEY
         promt = bot_qry.replace('#idk', '')
+        firstname = update.effective_chat.first_name
+        
+        
+        await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type}: "+str(update))
 
         if len(promt) < 4000:
             # use moderation api and check all values and send the user some feedback as well
             response = openai.Moderation.create(
                 input=f"{promt}"
             )
-            print(response)
+            
             flagged = response["results"][0]["flagged"]
-
             if flagged:
                 await context.bot.send_message(chat_id=update.effective_chat.id,
                                                text=str(f"Your Request was flagged!"), reply_to_message_id=update.message.id)
@@ -54,12 +58,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await context.bot.sendChatAction(chat_id=update.effective_chat.id,
                                                  action=telegram.constants.ChatAction.TYPING)
 
-                response = await openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": f"{promt}", }])
+                response = await openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
+                    {"role": "system", "content": f"You are EngeyBot created by @fauzaanu to help {firstname} with a question they have. Your job is to provide him every piece of knowledge you can about the subject matter {firstname} asked. You are programmed to replicate and match the energy or emotion that {firstname} asks their question with when providing your genius and brilliant answer", },
+                    {"role": "user", "content": f"{promt}", }
+                    ])
                 
-                print(response.to_dict_recursive())
+                #print(response.to_dict_recursive())
                 x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
-                print(x)
-                print(response)
+                #print(x)
+                #print(response)
                 promt = promt.strip()
                 await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=processing.message_id)
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
@@ -73,15 +80,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     await context.bot.send_audio(chat_id=update.effective_chat.id, audio=open('voice.mp3', 'rb'), title=f"{promt}", performer=f"@EngeyBot", caption=f"{promt}", thumb="main.jpg", reply_to_message_id=update.message.id)
                     
                     os.remove("voice.mp3")
-                    
-
                 processing = await context.bot.send_message(chat_id=update.effective_chat.id,
                                                             text=str(f"Processing Complete! If you didnt recieve an answer please try again"), )
+                
+                await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
                 
         else:
             await context.bot.send_message(chat_id=update.effective_chat.id,
                                            text="1000 characters allowed")
 
+    
 
 
 # working part
