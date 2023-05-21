@@ -88,7 +88,37 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_message(chat_id=update.effective_chat.id,
                                            text="1000 characters allowed")
 
-    
+    elif update.effective_chat.id == -1001512695831:
+        # random chance to engage in the group chat
+        # filter pure text messages - no media - no stickers - no gifs - no images - no videos
+        if update.message.text:
+            if random.randint(0, 100) < 50:
+                # use moderation api and check all values and send the user some feedback as well
+                promt = update.message.text
+                response = openai.Moderation.create(
+                    input=f"{promt}"
+                )
+                
+                flagged = response["results"][0]["flagged"]
+                if flagged:
+                    return None
+                else:
+                    await context.bot.sendChatAction(chat_id=update.effective_chat.id,
+                                                    action=telegram.constants.ChatAction.TYPING)
+
+                    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
+                        {"role": "system", "content": f"You are EngeyBot created by @fauzaanu. Apart from your primary task you are currently in a group chat with several members.and now you are engaging with a message they have sent. Be friendly and have a group chat vibe in your replies. This is a friends group. All kinds of humor is allowed here.", },
+                        {"role": "user", "content": f"{promt}", }
+                        ])
+                    
+
+                    x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
+
+                    promt = promt.strip()
+                    await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
+                    await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
+                    
+                
 
 
 # working part
