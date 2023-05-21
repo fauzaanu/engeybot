@@ -93,7 +93,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # random chance to engage in the group chat
         # filter pure text messages - no media - no stickers - no gifs - no images - no videos
         if update.message.text:
-            if random.randint(0, 100) < 50:
+            if random.randint(0, 100) < 1:
                 # use moderation api and check all values and send the user some feedback as well
                 openai.api_key = OPEN_AI_KEY
                 promt = update.message.text
