@@ -95,6 +95,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if update.message.text:
             if random.randint(0, 100) < 50:
                 # use moderation api and check all values and send the user some feedback as well
+                openai.api_key = OPEN_AI_KEY
                 promt = update.message.text
                 response = openai.Moderation.create(
                     input=f"{promt}"
