@@ -8,6 +8,7 @@ from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHan
 from cred import *
 from tts import _main
 import os
+import random
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
