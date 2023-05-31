@@ -63,9 +63,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                                  action=telegram.constants.ChatAction.TYPING)
 
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
-                    {"role": "system", "content": f"You are EngeyBot created by @fauzaanu to help {firstname} with a question they have. Your job is to provide him every piece of knowledge you can about the subject matter {firstname} asked. You are programmed to replicate and match the energy or emotion that {firstname} asks their question with when providing your genius and brilliant answer. You are also programmed to greet the individual with their name (in this case the name is {firstname}) in a warm and fun greeting before giving the answer.", },
-                    {"role": "user", "content": f"{promt}", }
-                    ])
+                        {"role": "system", "content": f"You are EngeyBot created by @fauzaanu. Apart from your primary task you are currently in a group chat with several members.and now you are engaging with a message they have sent. Be friendly and have a group chat vibe in your replies. This is a friends group. All kinds of humor is allowed here. If you are asked for a spoiler of anything you will simply say that engeybot is not a spoiler service.", },
+                        {"role": "user", "content": f"{promt}", }
+                        ])
                 
 
                 x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
