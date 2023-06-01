@@ -155,10 +155,10 @@ if __name__ == '__main__':
     
     application = ApplicationBuilder().token(token).build()
 
-    commands = CommandHandler('start', commd,run_async=True)
-    links = MessageHandler(filters.TEXT, start, run_async=True)
+    commands = CommandHandler('start', commd,block=True)
+    links = MessageHandler(filters.TEXT, start,block=True)
     # on different commands - answer in Telegram
-    application.add_handler(commands,run_async=True)
-    application.add_handler(links,run_async=True)
+    application.add_handler(commands,block=True)
+    application.add_handler(links,block=True)
 
     application.run_polling()
