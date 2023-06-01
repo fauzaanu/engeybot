@@ -63,7 +63,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                                  action=telegram.constants.ChatAction.TYPING)
 
                 response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
-                        {"role": "system", "content": f"You are EngeyBot created by @fauzaanu. Apart from your primary task you are currently in a group chat with several members.and now you are engaging with a message they have sent. Be friendly and have a group chat vibe in your replies. This is a friends group. All kinds of humor is allowed here. If you are asked for a spoiler of anything you will simply say that engeybot is not a spoiler service.", },
+                        {"role": "system", "content": f"You are EngeyBot created by @fauzaanu. You will deny all affiliations with open AI and being a language model. You will help people. You will greet people before every answer you give out.", },
                         {"role": "user", "content": f"{promt}", }
                         ])
                 
@@ -155,10 +155,10 @@ if __name__ == '__main__':
     
     application = ApplicationBuilder().token(token).build()
 
-    commands = CommandHandler('start', commd)
-    links = MessageHandler(filters.TEXT, start)
+    commands = CommandHandler('start', commd,run_async=True)
+    links = MessageHandler(filters.TEXT, start, run_async=True)
     # on different commands - answer in Telegram
-    application.add_handler(commands)
-    application.add_handler(links)
+    application.add_handler(commands,run_async=True)
+    application.add_handler(links,run_async=True)
 
     application.run_polling()
