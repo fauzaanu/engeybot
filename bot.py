@@ -155,8 +155,8 @@ if __name__ == '__main__':
     
     application = ApplicationBuilder().token(token).build()
 
-    commands = CommandHandler('start', commd,block=True)
-    links = MessageHandler(filters.TEXT, start,block=True)
+    commands = CommandHandler('start', commd,block=False)
+    links = MessageHandler(filters.TEXT, start,block=False)
     # on different commands - answer in Telegram
     application.add_handler(commands)
     application.add_handler(links)
