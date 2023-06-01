@@ -158,7 +158,7 @@ if __name__ == '__main__':
     commands = CommandHandler('start', commd,block=True)
     links = MessageHandler(filters.TEXT, start,block=True)
     # on different commands - answer in Telegram
-    application.add_handler(commands,block=True)
-    application.add_handler(links,block=True)
+    application.add_handler(commands)
+    application.add_handler(links)
 
     application.run_polling()
