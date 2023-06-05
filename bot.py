@@ -121,33 +121,34 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
                     await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
             # if this was a reply to the bot
-            elif update.message.reply_to_message.from_user.id == application.bot.id:
-                # use moderation api and check all values and send the user some feedback as well
-                openai.api_key = OPEN_AI_KEY
-                promt = update.message.text
-                response = openai.Moderation.create(
-                    input=f"{promt}"
-                )
-                
-                flagged = response["results"][0]["flagged"]
-                if flagged:
-                    return None
-                else:
-                    await context.bot.sendChatAction(chat_id=update.effective_chat.id,
-                                                    action=telegram.constants.ChatAction.TYPING)
-
-                    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
-                        {"role": "system", "content": f"You are EngeyBot a savage chatbot in a groupchat created by @fauzaanu. You are not helpful at all. Greet people before response always,", },
-                        {"role": "user", "content": f"{promt}", }
-                        ])
+            elif update.message.reply_to_message:
+                if update.message.reply_to_message.from_user.id == application.bot.id:
+                    # use moderation api and check all values and send the user some feedback as well
+                    openai.api_key = OPEN_AI_KEY
+                    promt = update.message.text
+                    response = openai.Moderation.create(
+                        input=f"{promt}"
+                    )
                     
+                    flagged = response["results"][0]["flagged"]
+                    if flagged:
+                        return None
+                    else:
+                        await context.bot.sendChatAction(chat_id=update.effective_chat.id,
+                                                        action=telegram.constants.ChatAction.TYPING)
 
-                    x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
+                        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
+                            {"role": "system", "content": f"You are EngeyBot a savage chatbot in a groupchat created by @fauzaanu. You are not helpful at all. Greet people before response always,", },
+                            {"role": "user", "content": f"{promt}", }
+                            ])
+                        
 
-                    promt = promt.strip()
-                    await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
-                    await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
-                
+                        x = str(response.to_dict_recursive()["choices"][0]["message"]["content"])
+
+                        promt = promt.strip()
+                        await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
+                        await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
+                    
                     
                 
 
