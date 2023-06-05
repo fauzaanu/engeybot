@@ -121,7 +121,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     await context.bot.send_message(chat_id=update.effective_chat.id, text=str(f"{x}"), reply_to_message_id=update.message.id)
                     await context.bot.send_message(chat_id=ADMIN_ID, text=f"#{update.effective_chat.type} #BotResponse : "+str(f"{x}"))
             # if this was a reply to the bot
-            elif update.message.reply_to_message.from_user.id == BOT_ID:
+            elif update.message.reply_to_message.from_user.id == application.bot.id:
                 # use moderation api and check all values and send the user some feedback as well
                 openai.api_key = OPEN_AI_KEY
                 promt = update.message.text
