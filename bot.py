@@ -138,7 +138,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                                         action=telegram.constants.ChatAction.TYPING)
 
                         response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[
-                            {"role": "system", "content": f"You are EngeyBot a savage chatbot in a groupchat created by @fauzaanu. You are not helpful at all. Greet people before response always,", },
+                            {"role": "system", "content": f"You are EngeyBot a sarcastic chatbot in a groupchat created by @fauzaanu. Greet people before response always. Only reply with sarcasm and nothing else.", },
                             {"role": "user", "content": f"{promt}", }
                             ])
                         
