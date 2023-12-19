@@ -1,5 +1,8 @@
 # ENGEYBOT
 
+> NOW MOVED TO: https://github.com/fauzaanu/engeybot-cloudflare/
+
+
 Engey (އެނގޭ) means knowing in Dhivehi. Bot is live on telegram under the handle of @engeybot
 
 The bot uses openAI completion API to generate responses to user input.
