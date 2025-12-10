@@ -8,6 +8,9 @@ RUN pip install uv
 # Copy project files
 COPY pyproject.toml .
 COPY main.py .
+COPY config.py .
+COPY router.py .
+COPY generators.py .
 
 # Install dependencies
 RUN uv sync --no-dev
