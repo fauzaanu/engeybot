@@ -17,5 +17,12 @@ if os.environ.get("ALLOWED_USERS"):
 MODE = os.environ.get("MODE", "DEV").upper()
 WEBHOOK_URL = os.environ.get("WEBHOOK")
 
+# MongoDB configuration
+MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb://localhost:27017")
+MONGODB_DATABASE = os.environ.get("MONGODB_DATABASE", "agentic_bot")
+
+# Redis configuration for Huey task queue
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+
 SYSTEM_INSTRUCTION = """You are a helpful assistant in a Telegram group chat. Always respond in Dhivehi (ދިވެހި).
 Provide detailed, informative responses."""

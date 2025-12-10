@@ -4,13 +4,38 @@ import io
 import sys
 import traceback
 import telebot
+from google import genai
+from huey import RedisHuey
 
-from config import BOT_TOKEN, ALLOWED_USERS, MODE, WEBHOOK_URL
+from config import (
+    BOT_TOKEN,
+    ALLOWED_USERS,
+    MODE,
+    WEBHOOK_URL,
+    GEMINI_API_KEY,
+    MONGODB_URI,
+    MONGODB_DATABASE,
+    REDIS_URL,
+)
 from router import route_message, RouteType
 from generators import generate_grounded_response, generate_simple_response, generate_image_response
+from agentic.handler import AgenticHandler
+from agentic.mongo_store import MongoStore
 
 bot = telebot.TeleBot(BOT_TOKEN)
 MAX_MESSAGE_LENGTH = 4096
+
+# Initialize Gemini client for agentic handler
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+
+# Initialize MongoDB store for conversation persistence
+mongo_store = MongoStore(MONGODB_URI, MONGODB_DATABASE)
+
+# Initialize Huey for scheduling auto-delete tasks
+huey = RedisHuey("telegram-bot", url=REDIS_URL)
+
+# Initialize AgenticHandler
+agentic_handler = AgenticHandler(bot, gemini_client, mongo_store, huey)
 
 
 def send_long_message(chat_id, text, reply_to_message_id=None, parse_mode=None):
@@ -66,9 +91,12 @@ def handle_message(message):
     message_id = message.message_id
     chat_type = message.chat.type
 
+    print(f"Chat type: {chat_type}, User: {user_id}, Text: {text[:50]}...")
+
     # In groups, only respond when tagged
     if chat_type in ("group", "supergroup"):
         if BOT_USERNAME.lower() not in text.lower():
+            print("Group message without mention, skipping")
             return
         # Remove the bot mention from text
         text = text.replace(BOT_USERNAME, "").replace(BOT_USERNAME.lower(), "").strip()
@@ -96,6 +124,9 @@ def handle_message(message):
                 )
             elif text_response:
                 send_long_message(chat_id, text_response, message_id)
+        elif route == RouteType.AGENTIC:
+            # Handle complex multi-faceted questions with agentic pipeline
+            agentic_handler.handle(message)
         elif route == RouteType.GROUNDED:
             response, use_html = generate_grounded_response(text)
             if response:
