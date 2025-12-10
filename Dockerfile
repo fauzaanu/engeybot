@@ -11,6 +11,7 @@ COPY main.py .
 COPY config.py .
 COPY router.py .
 COPY generators.py .
+COPY agentic/ ./agentic/
 
 # Install dependencies
 RUN uv sync --no-dev
