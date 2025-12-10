@@ -1,0 +1,12 @@
+[project]
+name = "ageminibot"
+version = "0.1.0"
+description = "Telegram bot with Gemini grounding and image generation"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytelegrambotapi>=4.25.0",
+    "google-genai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "flask>=3.0.0",
+]
