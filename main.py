@@ -64,7 +64,6 @@ def handle_message(message):
     except Exception as e:
         traceback.print_exc()
         sys.stdout.flush()
-        bot.reply_to(message, f"Error: {e}")
 
 
 def main():

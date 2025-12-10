@@ -66,7 +66,7 @@ def generate_image_response(question: str) -> tuple[str, bytes | None]:
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash-preview-image-generation",
+        model="gemini-3-pro-image-preview",
         contents=question,
         config=config,
     )
