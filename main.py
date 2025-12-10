@@ -46,6 +46,9 @@ def send_long_message(chat_id, text, reply_to_message_id=None, parse_mode=None):
         bot.send_message(chat_id, chunk, reply_to_message_id=reply_id, parse_mode=parse_mode)
 
 
+BOT_USERNAME = "@engeybot"
+
+
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     """Handle all incoming messages."""
@@ -61,6 +64,14 @@ def handle_message(message):
 
     chat_id = message.chat.id
     message_id = message.message_id
+    chat_type = message.chat.type
+
+    # In groups, only respond when tagged
+    if chat_type in ("group", "supergroup"):
+        if BOT_USERNAME.lower() not in text.lower():
+            return
+        # Remove the bot mention from text
+        text = text.replace(BOT_USERNAME, "").replace(BOT_USERNAME.lower(), "").strip()
 
     try:
         # Route the message
