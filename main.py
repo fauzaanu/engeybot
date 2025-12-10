@@ -10,6 +10,40 @@ from router import route_message, RouteType
 from generators import generate_grounded_response, generate_simple_response, generate_image_response
 
 bot = telebot.TeleBot(BOT_TOKEN)
+MAX_MESSAGE_LENGTH = 4096
+
+
+def send_long_message(chat_id, text, reply_to_message_id=None, parse_mode=None):
+    """Split and send long messages."""
+    if len(text) <= MAX_MESSAGE_LENGTH:
+        bot.send_message(chat_id, text, reply_to_message_id=reply_to_message_id, parse_mode=parse_mode)
+        return
+
+    # Split by paragraphs first, then by length
+    chunks = []
+    current_chunk = ""
+
+    for line in text.split("\n"):
+        if len(current_chunk) + len(line) + 1 <= MAX_MESSAGE_LENGTH:
+            current_chunk += line + "\n"
+        else:
+            if current_chunk:
+                chunks.append(current_chunk.strip())
+            if len(line) > MAX_MESSAGE_LENGTH:
+                # Split long lines
+                for i in range(0, len(line), MAX_MESSAGE_LENGTH):
+                    chunks.append(line[i : i + MAX_MESSAGE_LENGTH])
+                current_chunk = ""
+            else:
+                current_chunk = line + "\n"
+
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+
+    for i, chunk in enumerate(chunks):
+        # Only reply to first message
+        reply_id = reply_to_message_id if i == 0 else None
+        bot.send_message(chat_id, chunk, reply_to_message_id=reply_id, parse_mode=parse_mode)
 
 
 @bot.message_handler(func=lambda message: True)
@@ -50,16 +84,16 @@ def handle_message(message):
                     reply_to_message_id=message_id,
                 )
             elif text_response:
-                bot.reply_to(message, text_response)
+                send_long_message(chat_id, text_response, message_id)
         elif route == RouteType.GROUNDED:
             response, use_html = generate_grounded_response(text)
             if response:
                 parse_mode = "HTML" if use_html else "Markdown"
-                bot.reply_to(message, response, parse_mode=parse_mode)
+                send_long_message(chat_id, response, message_id, parse_mode)
         elif route == RouteType.SIMPLE:
             response = generate_simple_response(text)
             if response:
-                bot.reply_to(message, response, parse_mode="Markdown")
+                send_long_message(chat_id, response, message_id, "Markdown")
 
     except Exception as e:
         traceback.print_exc()
