@@ -62,7 +62,7 @@ def generate_image_response(question: str) -> tuple[str, bytes | None]:
     config = types.GenerateContentConfig(
         response_modalities=["TEXT", "IMAGE"],
         tools=[types.Tool(google_search=types.GoogleSearch())],
-        system_instruction="You create visual diagrams and explanations. Always respond in Dhivehi (ދިވެހި).",
+        system_instruction="You create visual diagrams and explanations. Use English for all text in images.",
     )
 
     response = client.models.generate_content(
