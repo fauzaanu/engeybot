@@ -4,7 +4,7 @@ inclusion: manual
 
 Gemini 3 is our most intelligent model family to date, built on a foundation of state-of-the-art reasoning. It is designed to bring any idea to life by mastering agentic workflows, autonomous coding, and complex multimodal tasks. This guide covers key features of the Gemini 3 model family and how to get the most out of it.
 
-[Try Gemini 3 Pro for free](https://aistudio.google.com?model=gemini-3-pro-preview)
+[Try Gemini 3 Pro for free](https://aistudio.google.com?model=gemini-3-flash-preview)
 
 Explore our[collection of Gemini 3 apps](https://aistudio.google.com/app/apps?source=showcase&showcaseTag=gemini-3)to see how the model handles advanced reasoning, autonomous coding, and complex multimodal tasks.
 
@@ -17,7 +17,7 @@ Gemini 3 Pro uses dynamic thinking by default to reason through prompts. For fas
     client = genai.Client()
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-3-flash-preview",
         contents="Find the race condition in this multi-threaded C++ snippet: [code here]",
     )
 
@@ -31,7 +31,7 @@ Gemini 3 Pro uses dynamic thinking by default to reason through prompts. For fas
 
     async function run() {
       const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview",
+        model: "gemini-3-flash-preview",
         contents="Find the race condition in this multi-threaded C++ snippet: [code here]",
       });
 
@@ -42,7 +42,7 @@ Gemini 3 Pro uses dynamic thinking by default to reason through prompts. For fas
 
 ### REST
 
-    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \
+    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
       -H "x-goog-api-key: $GEMINI_API_KEY" \
       -H 'Content-Type: application/json' \
       -X POST \
@@ -54,11 +54,11 @@ Gemini 3 Pro uses dynamic thinking by default to reason through prompts. For fas
 
 ## Meet Gemini 3
 
-Gemini 3 Pro is the first model in the new series.`gemini-3-pro-preview`is best for your complex tasks that require broad world knowledge and advanced reasoning across modalities.
+Gemini 3 Pro is the first model in the new series.`gemini-3-flash-preview`is best for your complex tasks that require broad world knowledge and advanced reasoning across modalities.
 
 |            Model ID            | Context Window (In / Out) | Knowledge Cutoff |            Pricing (Input / Output)\*             |
 |--------------------------------|---------------------------|------------------|---------------------------------------------------|
-| **gemini-3-pro-preview**       | 1M / 64k                  | Jan 2025         | $2 / $12 (\<200k tokens) $4 / $18 (\>200k tokens) |
+| **gemini-3-flash-preview**       | 1M / 64k                  | Jan 2025         | $2 / $12 (\<200k tokens) $4 / $18 (\>200k tokens) |
 | **gemini-3-pro-image-preview** | 65k / 32k                 | Jan 2025         | $2 (Text Input) / $0.134 (Image Output)\*\*       |
 
 *\* Pricing is per 1 million tokens unless otherwise noted.* *\*\* Image pricing varies by resolution. See the[pricing page](https://ai.google.dev/gemini-api/docs/pricing)for details.*
@@ -106,7 +106,7 @@ You can now set the resolution to`media_resolution_low`,`media_resolution_medium
     client = genai.Client(http_options={'api_version': 'v1alpha'})
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-3-flash-preview",
         contents=[
             types.Content(
                 parts=[
@@ -134,7 +134,7 @@ You can now set the resolution to`media_resolution_low`,`media_resolution_medium
 
     async function run() {
       const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: [
           {
             parts: [
@@ -160,7 +160,7 @@ You can now set the resolution to`media_resolution_low`,`media_resolution_medium
 
 ### REST
 
-    curl "https://generativelanguage.googleapis.com/v1alpha/models/gemini-3-pro-preview:generateContent" \
+    curl "https://generativelanguage.googleapis.com/v1alpha/models/gemini-3-flash-preview:generateContent" \
       -H "x-goog-api-key: $GEMINI_API_KEY" \
       -H 'Content-Type: application/json' \
       -X POST \
@@ -440,7 +440,7 @@ Gemini 3 allows you to combine[Structured Outputs](https://ai.google.dev/gemini-
     client = genai.Client()
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-3-flash-preview",
         contents="Search for all details for the latest Euro.",
         config={
             "tools": [
@@ -471,7 +471,7 @@ Gemini 3 allows you to combine[Structured Outputs](https://ai.google.dev/gemini-
 
     async function run() {
       const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: "Search for all details for the latest Euro.",
         config: {
           tools: [
@@ -491,7 +491,7 @@ Gemini 3 allows you to combine[Structured Outputs](https://ai.google.dev/gemini-
 
 ### REST
 
-    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \
+    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
       -H "x-goog-api-key: $GEMINI_API_KEY" \
       -H 'Content-Type: application/json' \
       -X POST \
@@ -645,7 +645,7 @@ Learn more about prompt design strategies in the[prompt engineering guide](https
 
 2. **What are the context window limits?**Gemini 3 Pro supports a 1 million token input context window and up to 64k tokens of output.
 
-3. **Is there a free tier for Gemini 3 Pro?** You can try the model for free in Google AI Studio, but currently, there is no free tier available for`gemini-3-pro-preview`in the Gemini API.
+3. **Is there a free tier for Gemini 3 Pro?** You can try the model for free in Google AI Studio, but currently, there is no free tier available for`gemini-3-flash-preview`in the Gemini API.
 
 4. **Will my old`thinking_budget`code still work?** Yes,`thinking_budget`is still supported for backward compatibility, but we recommend migrating to`thinking_level`for more predictable performance. Do not use both in the same request.
 
@@ -657,5 +657,5 @@ Learn more about prompt design strategies in the[prompt engineering guide](https
 
 ## Next steps
 
-- Get started with the[Gemini 3 Cookbook](https://colab.research.google.com/github/google-gemini/cookbook/blob/main/quickstarts/Get_started.ipynb#templateParams=%7B%22MODEL_ID%22%3A+%22gemini-3-pro-preview%22%7D)
+- Get started with the[Gemini 3 Cookbook](https://colab.research.google.com/github/google-gemini/cookbook/blob/main/quickstarts/Get_started.ipynb#templateParams=%7B%22MODEL_ID%22%3A+%22gemini-3-flash-preview%22%7D)
 - Check the dedicated Cookbook guide on[thinking levels](https://colab.research.google.com/github/google-gemini/cookbook/blob/main/quickstarts/Get_started_thinking_REST.ipynb#gemini3)and how to migrate from thinking budget to thinking levels.

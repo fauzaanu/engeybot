@@ -348,7 +348,7 @@ The streamed chunks will be valid partial JSON strings, which can be concatenate
 
 ## Structured outputs with tools
 
-| **Preview:** This is a feature available only with the`gemini-3-pro-preview`model.
+| **Preview:** This is a feature available only with the`gemini-3-flash-preview`model.
 
 Gemini 3 lets you combine Structured Outputs with built-in tools, including[Grounding with Google Search](https://ai.google.dev/gemini-api/docs/google-search),[URL Context](https://ai.google.dev/gemini-api/docs/url-context), and[Code Execution](https://ai.google.dev/gemini-api/docs/code-execution).  
 
@@ -366,7 +366,7 @@ Gemini 3 lets you combine Structured Outputs with built-in tools, including[Grou
     client = genai.Client()
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-3-flash-preview",
         contents="Search for all details for the latest Euro.",
         config={
             "tools": [
@@ -397,7 +397,7 @@ Gemini 3 lets you combine Structured Outputs with built-in tools, including[Grou
 
     async function run() {
       const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: "Search for all details for the latest Euro.",
         config: {
           tools: [
@@ -417,7 +417,7 @@ Gemini 3 lets you combine Structured Outputs with built-in tools, including[Grou
 
 ### REST
 
-    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \
+    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
       -H "x-goog-api-key: $GEMINI_API_KEY" \
       -H 'Content-Type: application/json' \
       -X POST \

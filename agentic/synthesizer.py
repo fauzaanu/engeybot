@@ -79,7 +79,7 @@ class SynthesisEngine:
         )
         
         response = self.client.models.generate_content(
-            model="gemini-3-pro-preview",
+            model="gemini-3-flash-preview",
             contents=prompt,
             config=config,
         )
@@ -181,7 +181,7 @@ Response: {result.response_text}
         )
         
         response = self.client.models.generate_content(
-            model="gemini-3-pro-preview",
+            model="gemini-3-flash-preview",
             contents=prompt,
             config=config,
         )

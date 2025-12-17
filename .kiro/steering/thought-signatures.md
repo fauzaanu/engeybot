@@ -43,7 +43,7 @@ When Gemini generates a`functionCall`, it relies on the`thought_signature`to pro
   - The**first** `functionCall`part in**each step** of the current turn**must** include its`thought_signature`.
   - If you omit a`thought_signature`for the first`functionCall`part in any step of the current turn, the request will fail with a 400 error.
 - **If proper signatures are not returned, here is how you will error out**
-  - `gemini-3-pro-preview`: Failure to include signatures will result in a 400 error. The verbiage will be of the form :
+  - `gemini-3-flash-preview`: Failure to include signatures will result in a 400 error. The verbiage will be of the form :
     - Function call`<Function Call>`in the`<index of contents array>`content block is missing a`thought_signature`. For example,*Function call`FC1`in the`1.`content block is missing a`thought_signature`.*
 
 ### Sequential function calling example
@@ -446,7 +446,7 @@ The following code walks through the given sequence.
 **Turn 1, Step 1 (User Request)**  
 
     {
-      "model": "google/gemini-3-pro-preview",
+      "model": "google/gemini-3-flash-preview",
       "messages": [
         {
           "role": "user",

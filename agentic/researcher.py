@@ -53,7 +53,7 @@ class ResearchEngine:
         while attempts <= max_retries:
             try:
                 response = self.client.models.generate_content(
-                    model="gemini-3-pro-preview",
+                    model="gemini-3-flash-preview",
                     contents=sub_query.query_text,
                     config=config,
                 )
@@ -171,7 +171,7 @@ class ResearchEngine:
         while attempts <= max_retries:
             try:
                 response = self.client.models.generate_content(
-                    model="gemini-3-pro-preview",
+                    model="gemini-3-flash-preview",
                     contents=question,
                     config=config,
                 )

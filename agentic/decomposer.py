@@ -128,7 +128,7 @@ class QueryDecomposer:
         )
         
         response = self.client.models.generate_content(
-            model="gemini-3-pro-preview",
+            model="gemini-3-flash-preview",
             contents=prompt,
             config=config,
         )
@@ -158,7 +158,7 @@ class QueryDecomposer:
         )
         
         response = self.client.models.generate_content(
-            model="gemini-3-pro-preview",
+            model="gemini-3-flash-preview",
             contents=prompt,
             config=config,
         )

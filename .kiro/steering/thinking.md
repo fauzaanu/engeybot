@@ -363,7 +363,7 @@ The`thinkingLevel`parameter, recommended for Gemini 3 models and onwards, lets y
     client = genai.Client()
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-3-flash-preview",
         contents="Provide a list of 3 famous physicists and their key contributions",
         config=types.GenerateContentConfig(
             thinking_config=types.ThinkingConfig(thinking_level="low")
@@ -380,7 +380,7 @@ The`thinkingLevel`parameter, recommended for Gemini 3 models and onwards, lets y
 
     async function main() {
       const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: "Provide a list of 3 famous physicists and their key contributions",
         config: {
           thinkingConfig: {
@@ -415,7 +415,7 @@ The`thinkingLevel`parameter, recommended for Gemini 3 models and onwards, lets y
       thinkingLevelVal := "low"
 
       contents := genai.Text("Provide a list of 3 famous physicists and their key contributions")
-      model := "gemini-3-pro-preview"
+      model := "gemini-3-flash-preview"
       resp, _ := client.Models.GenerateContent(ctx, model, contents, &genai.GenerateContentConfig{
         ThinkingConfig: &genai.ThinkingConfig{
           ThinkingLevel: &thinkingLevelVal,
@@ -427,7 +427,7 @@ The`thinkingLevel`parameter, recommended for Gemini 3 models and onwards, lets y
 
 ### REST
 
-    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \
+    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent" \
     -H "x-goog-api-key: $GEMINI_API_KEY" \
     -H 'Content-Type: application/json' \
     -X POST \
