@@ -18,7 +18,7 @@ def generate_grounded_response(message: str) -> tuple[str, bool]:
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=message,
         config=config,
     )
@@ -50,7 +50,7 @@ def generate_simple_response(message: str) -> str:
     """Generate a simple response without grounding."""
     config = types.GenerateContentConfig(system_instruction=SYSTEM_INSTRUCTION)
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=message,
         config=config,
     )

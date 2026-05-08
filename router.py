@@ -25,7 +25,7 @@ class MessageRoute(BaseModel):
 def route_message(text: str) -> RouteType:
     """Use Gemini Flash with structured output to decide how to respond."""
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=f"""Analyze this message and decide the best response type:
 - IMAGE: user wants a diagram, chart, visualization, or image created
 - AGENTIC: ANY question or request that needs information or research - this is the DEFAULT for questions
