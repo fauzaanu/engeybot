@@ -21,6 +21,7 @@ from router import route_message, RouteType
 from generators import generate_grounded_response, generate_simple_response, generate_image_response
 from agentic.handler import AgenticHandler
 from agentic.mongo_store import MongoStore
+from guest_handler import handle_guest_message
 
 bot = telebot.TeleBot(BOT_TOKEN)
 MAX_MESSAGE_LENGTH = 4096
@@ -156,7 +157,19 @@ def main():
 
         @app.route(f"/{BOT_TOKEN}", methods=["POST"])
         def webhook():
-            update = telebot.types.Update.de_json(request.get_json())
+            update_json = request.get_json()
+
+            # Handle guest_message updates (Bot API 10.0)
+            # pyTelegramBotAPI doesn't support this yet, so we intercept it here
+            if "guest_message" in update_json:
+                try:
+                    handle_guest_message(update_json)
+                except Exception as e:
+                    print(f"Error handling guest message: {e}")
+                    traceback.print_exc()
+                return "OK", 200
+
+            update = telebot.types.Update.de_json(update_json)
             bot.process_new_updates([update])
             return "OK", 200
 
@@ -165,13 +178,36 @@ def main():
             return "OK", 200
 
         bot.remove_webhook()
-        bot.set_webhook(url=f"{WEBHOOK_URL}/{BOT_TOKEN}")
+        bot.set_webhook(
+            url=f"{WEBHOOK_URL}/{BOT_TOKEN}",
+            allowed_updates=[
+                "message",
+                "edited_message",
+                "channel_post",
+                "edited_channel_post",
+                "callback_query",
+                "inline_query",
+                "chosen_inline_result",
+                "guest_message",
+            ],
+        )
         print(f"Bot starting in PROD mode with webhook: {WEBHOOK_URL}")
 
         app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     else:
         print("Bot starting in DEV mode (polling)...")
-        bot.infinity_polling()
+        bot.infinity_polling(
+            allowed_updates=[
+                "message",
+                "edited_message",
+                "channel_post",
+                "edited_channel_post",
+                "callback_query",
+                "inline_query",
+                "chosen_inline_result",
+                "guest_message",
+            ],
+        )
 
 
 if __name__ == "__main__":
